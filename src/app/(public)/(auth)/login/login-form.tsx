@@ -15,11 +15,13 @@ import { handleErrorApi } from "@/lib/utils";
 import { useLoginMutation } from "@/queries/useAuth";
 import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
   const loginMutation = useLoginMutation();
   const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
     defaultValues: {
@@ -35,6 +37,7 @@ export default function LoginForm() {
       toast({
         description: result.payload.message,
       });
+      router.push("/manage/dashboard");
     } catch (error: unknown) {
       handleErrorApi({
         error,
