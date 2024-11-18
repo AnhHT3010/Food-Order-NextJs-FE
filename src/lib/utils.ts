@@ -42,3 +42,10 @@ export const handleErrorApi = ({
     showToast(error?.payload?.message ?? "Đã có lỗi xảy ra", "destructive");
   }
 };
+const isBrowser = typeof window !== "undefined";
+export const getAccessTokenFromLocalStorage = () => {
+  return isBrowser ? localStorage.getItem("accessToken") : null;
+};
+export const getRefreshTokenToLocalStorage = () => {
+  return isBrowser ? localStorage.getItem("refreshToken") : null;
+};
