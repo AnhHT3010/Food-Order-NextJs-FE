@@ -8,7 +8,7 @@ type CustomOptions = Omit<RequestInit, "method"> & {
   baseUrl?: string | undefined;
 };
 
-const ENTITY_ERROR_STATUS = 422;
+export const ENTITY_ERROR_STATUS = 422;
 const AUTHENTICATION_ERROR_STATUS = 401;
 
 type EntityErrorPayload = {
@@ -144,6 +144,7 @@ const request = async <Response>(
           }
         }
       } else {
+        // Đây là trường hợp vẫn còn access Token và gọi api ở phía Next Server lên Server Backend
         const accessToken = (options?.headers as any)?.Authorization.split(
           "Bearer "
         )[1];

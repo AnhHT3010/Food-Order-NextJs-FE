@@ -7,7 +7,10 @@ export async function POST(request: Request) {
   // Lấy giá trị accessToken và refreshToken từ cookies.
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
-
+  cookieStore.delete("accessToken");
+  cookieStore.delete("refreshToken");
+  console.log("accessToken", accessToken);
+  console.log("refreshToken", refreshToken);
   // Kiểm tra nếu không nhận được accessToken hoặc refreshToken.
   if (!accessToken || !refreshToken) {
     return Response.json(
@@ -22,17 +25,8 @@ export async function POST(request: Request) {
 
   try {
     const result = await authApiRequest.sLogout({ accessToken, refreshToken });
-
-    // Xóa cookies nếu tồn tại.
-    if (accessToken) {
-      cookieStore.delete("accessToken");
-    }
-    if (refreshToken) {
-      cookieStore.delete("refreshToken");
-    }
     return Response.json(result.payload);
   } catch (error) {
-    // Trả về phản hồi thành công nếu có cả accessToken và refreshToken.
     return Response.json(
       {
         message: "Lỗi API khi thực hiện logout server backend",
